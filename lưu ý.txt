@@ -1,6 +1,0 @@
-- Hàm gọi api là hàm bất dồng bộ
-VD:
-const ... = async () => {
-   try {}
-   catch (error) {}
-} 
