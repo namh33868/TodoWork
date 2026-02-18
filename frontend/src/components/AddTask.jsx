@@ -1,15 +1,17 @@
-import React from 'react'
+import React, { useState } from "react";
 import { Card } from './ui/card';
 import { Input } from './ui/input';
 import { Button } from './ui/button';
 import { Plus } from 'lucide-react';
+import api from "@/lib/axios";
+import { toast } from "sonner";
 
-const AddTask = () => {
-  const {newTaskTitle, setNewTaskTitle} = useState('');
+const AddTask = ({ handleNewTaskAdded }) => {
+  const [newTaskTitle, setNewTaskTitle] = useState("");
   const addTask = async () => {
-    if(newTaskTitle.trim() === '') {
+    if (newTaskTitle.trim() !== "") {
       try {
-        await api.post('/tasks', {title: newTaskTitle,});
+        await api.post("/tasks", { title: newTaskTitle });
         toast.success(`Task ${newTaskTitle} added successfully`);
         handleNewTaskAdded();
       } catch (error) {

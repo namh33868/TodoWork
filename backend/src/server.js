@@ -3,6 +3,7 @@ import taskRoute from "./routes/tasksRouters.js";
 import connectDB from "./config/db.js";
 import dotenv from "dotenv";
 import cors from "cors";
+import fs from "fs";
 import path from "path";
 
 dotenv.config();
@@ -21,11 +22,13 @@ if (process.env.NODE_ENV !== "production") {
 
 app.use("/api/tasks", taskRoute);
 
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../frontend/dist")));
+const staticPath = path.join(__dirname, "../frontend/dist");
+
+if (fs.existsSync(staticPath)) {
+  app.use(express.static(staticPath));
 
   app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
+    res.sendFile(path.join(staticPath, "index.html"));
   });
 }
 

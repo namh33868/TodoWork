@@ -2,10 +2,10 @@ import AddTask from "@/components/AddTask";
 import DateTimeFilter from "@/components/DateTimeFilter";
 import Footer from "@/components/Footer";
 import { Header } from "@/components/Header";
-import StatsAndFilters from "@/components/StatsAndFilters";
+import StatsAndFilters from "@/components/StatsAndFilter";
 import TaskList from "@/components/TaskList";
 import TaskListPagination from "@/components/TaskListPagination";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 import api from "@/lib/axios";
 import { visibleTaskLimit } from "@/lib/data";
@@ -18,16 +18,7 @@ const HomePage = () => {
   const [dateQuery, setDateQuery] = useState("today");
   const [page, setPage] = useState(1);
 
-  useEffect(() => {
-    fetchTasks();
-  }, [dateQuery]);
-
-  useEffect(() => {
-    setPage(1);
-  }, [filter, dateQuery]);
-
-  // logic
-  const fetchTasks = async () => {
+  const fetchTasks = useCallback(async () => {
     try {
       const res = await api.get(`/tasks?filter=${dateQuery}`);
       setTaskBuffer(res.data.tasks);
@@ -37,7 +28,15 @@ const HomePage = () => {
       console.error("Lỗi xảy ra khi truy xuất tasks:", error);
       toast.error("Lỗi xảy ra khi truy xuất tasks.");
     }
-  };
+  }, [dateQuery]);
+
+  useEffect(() => {
+    fetchTasks();
+  }, [fetchTasks]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [filter, dateQuery]);
 
   const handleTaskChanged = () => {
     fetchTasks();
@@ -65,32 +64,26 @@ const HomePage = () => {
       case "active":
         return task.status === "active";
       case "completed":
-        return task.status === "complete";
+        return task.status === "completed";
       default:
         return true;
     }
   });
+
+  const totalPages = Math.ceil(filteredTasks.length / visibleTaskLimit);
 
   const visibleTasks = filteredTasks.slice(
     (page - 1) * visibleTaskLimit,
     page * visibleTaskLimit
   );
 
-  if (visibleTasks.length === 0) {
-    handlePrev();
-  }
-
-  const totalPages = Math.ceil(filteredTasks.length / visibleTaskLimit);
-
   return (
-    <div className="min-h-screen w-full bg-[#fefcff] relative">
-      {/* Dreamy Sky Pink Glow */}
+    <div className="min-h-screen w-full relative">
+      {/* Purple Radial Bloom Light Gradient */}
       <div
         className="absolute inset-0 z-0"
         style={{
-          backgroundImage: `
-        radial-gradient(circle at 30% 70%, rgba(173, 216, 230, 0.35), transparent 60%),
-        radial-gradient(circle at 70% 30%, rgba(255, 182, 193, 0.4), transparent 60%)`,
+          background: `radial-gradient(circle at center, #F3E8FF 0%, #DDD6FE 30%, #C4B5FD 60%, #A78BFA 100%)`,
         }}
       />
       {/* Your Content/Components */}
@@ -139,7 +132,7 @@ const HomePage = () => {
           />
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 

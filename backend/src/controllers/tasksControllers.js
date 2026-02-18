@@ -2,21 +2,24 @@
 import Task from '../model/Task.js';
 
 export const getAllTasks = async (req, res) => {
-  const {filter = 'topday'} = req.query;
+  const { filter = "today" } = req.query;
   const now = new Date();
+  let startDate = null;
 
   switch (filter) {
-    case 'today':
+    case "today":
       startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
       break;
-    case 'Week':
-      const mondayDate = now.getDate() - (now.getDay() - 1) - (now.getDay() === 0 ? 7 : 0);
+    case "thisWeek": {
+      const mondayDate =
+        now.getDate() - (now.getDay() - 1) - (now.getDay() === 0 ? 7 : 0);
       startDate = new Date(now.getFullYear(), now.getMonth(), mondayDate);
       break;
-    case 'Month':
+    }
+    case "thisMonth":
       startDate = new Date(now.getFullYear(), now.getMonth(), 1);
       break;
-    case 'all':
+    case "all":
     default:
       break;
   }

@@ -14,18 +14,17 @@ const TaskListPagination = ({ handleNext, handlePrev, handlePageChange, page, to
   const generatePages = () => {
     const pages = [];
 
-    if (totalPages > 4) {
-      // Hiện toàn bộ
+    if (totalPages <= 5) {
       for (let i = 1; i <= totalPages; i++) {
         pages.push(i);
       }
     } else {
-      if (page < 2) {
+      if (page <= 2) {
         pages.push(1, 2, 3, "...", totalPages);
       } else if (page >= totalPages - 1) {
-        pages.push(1, '...', totalPages - 2, totalPages - 1, totalPages);
+        pages.push(1, "...", totalPages - 2, totalPages - 1, totalPages);
       } else {
-        pages.push(1, '...', page, "...", totalPages);
+        pages.push(1, "...", page, "...", totalPages);
       }
     }
     return pages;

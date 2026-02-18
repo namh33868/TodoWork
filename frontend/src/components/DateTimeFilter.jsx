@@ -13,8 +13,8 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { options } from "@/lib/data";
 
-const DateTimeFiller = ({dateQuery, setDateQuery}) => {
-  const [open, setOpen] = useState(false);
+const DateTimeFilter = ({dateQuery, setDateQuery}) => {
+  const [open, setOpen] = React.useState(false);
   return (
     <Popover
       open={open}
@@ -63,4 +63,4 @@ const DateTimeFiller = ({dateQuery, setDateQuery}) => {
     </Popover>
   );
 };
-export default DateTimeFiller;
+export default DateTimeFilter;
