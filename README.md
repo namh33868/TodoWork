@@ -43,6 +43,8 @@ FullStack Web – Task Manager (Todo Work) là ứng dụng quản lý công vi�
 - Bản demo đã deploy:  
   👉 https://todowork-0iw4.onrender.com/
 
+Đợi 1 lúc để server tự build và start (free tier render cứ sau 15p không có trafic sẽ tự động ngắt @@)
+
 ---
 
 ## 3. Công nghệ sử dụng
